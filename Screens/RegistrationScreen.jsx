@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,9 +10,6 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
 const initialState = {
   login: "",
   email: "",
@@ -23,27 +20,6 @@ export default RegistrationScreen = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
 
-  const [fontsLoaded] = useFonts({
-    "Roboto-Bold": require("../assets/fonts/Roboto-Bold.ttf"),
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
-    "Roboto-Medium": require("../assets/fonts/Roboto-Regular.ttf"),
-  });
-
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  }, []);
-
-  const onLayout = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
@@ -52,7 +28,7 @@ export default RegistrationScreen = () => {
   };
 
   return (
-    <View style={styles.container} onLayout={onLayout}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <ImageBackground
           style={styles.image}
@@ -64,6 +40,7 @@ export default RegistrationScreen = () => {
               marginTop: isShowKeyboard ? 147 : 263,
             }}
           >
+            <View style={styles.addPhotoSquare}></View>
             <Text style={styles.title}>Реєстрація</Text>
 
             <View style={styles.form}>
@@ -127,6 +104,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   registration: {
+    position: "relative",
     flex: 1,
     alignItems: "center",
     paddingTop: 92,
@@ -134,6 +112,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
+  },
+  addPhotoSquare: {
+    position: "absolute",
+    top: -60,
+    width: 120,
+    height: 120,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
   },
   title: {
     fontFamily: "Roboto-Medium",
