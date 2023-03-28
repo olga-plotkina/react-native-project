@@ -2,15 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-// import CreatePostScreen from "./Screens/CreatePostScreen.jsx";
-// import PostsScreen from "./Screens/PostsScreen.jsx";
-// import CreatePostScreen from "./Screens/CreatePostScreen.jsx";
-// import LoginScreen from "./Screens/LoginScreen";
-// import CommentsScreen from "./Screens/CommentsScreen.jsx";
-import ProfileScreen from "./Screens/ProfileScreen.jsx";
+import { NavigationContainer } from "@react-navigation/native";
+import { useRoute } from "./router";
 
 export default function App() {
+  const routing = useRoute(true);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -34,7 +31,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayout}>
-      <ProfileScreen />
+      <NavigationContainer>{routing}</NavigationContainer>
     </View>
   );
 }

@@ -28,7 +28,7 @@ export default ProfileScreen = () => {
                 </Text>
               </View>
             </View>
-            <View style={styles.postItem}>
+            {/* <View style={styles.postItem}>
               <Image
                 source={require("../assets/post-sunset.jpg")}
                 style={styles.postImage}
@@ -38,7 +38,7 @@ export default ProfileScreen = () => {
                 <Text style={styles.postComments}>3</Text>
                 <Text style={styles.postLocation}>Kherson Region, Ukraine</Text>
               </View>
-            </View>
+            </View> */}
             {/* <View style={styles.postItem}>
               <Image
                 source={require("../assets/post-house.jpg")}
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     marginTop: 32,
   },
-  postItem: { flex: 1, marginTop: 35 },
+  postItem: { flex: 1 },
   postImage: { width: 343, height: 240, borderRadius: 8 },
   postTitle: {
     marginTop: 8,
