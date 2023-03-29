@@ -34,7 +34,11 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator tabBarOptions={{ showLabel: false }}>
+    <MainTab.Navigator
+      tabBarOptions={{
+        showLabel: false,
+      }}
+    >
       <MainTab.Screen
         options={{
           headerTitleStyle: {
@@ -50,15 +54,33 @@ export const useRoute = (isAuth) => {
             />
           ),
           title: "Публікації",
-          tabBarIcon: ({ focused, size, color }) => (
-            <Ionicons name="ios-grid-outline" size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused, size, color }) => {
+            if (focused) {
+              return (
+                <View
+                  style={{
+                    width: 70,
+                    height: 40,
+                    backgroundColor: "#FF6C00",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 20,
+                  }}
+                >
+                  <Ionicons name="ios-grid-outline" size={size} color="white" />
+                </View>
+              );
+            }
+            return (
+              <Ionicons name="ios-grid-outline" size={size} color={color} />
+            );
+          },
         }}
         name="Posts"
         component={PostsScreen}
       />
       <MainTab.Screen
-        options={{
+        options={({ route }) => ({
           headerTitleStyle: {
             fontFamily: "Roboto-Medium",
             fontSize: 17,
@@ -72,30 +94,51 @@ export const useRoute = (isAuth) => {
               color="rgba(33, 33, 33, 0.8)"
             />
           ),
-          tabBarIcon: ({ focused, size, color }) => (
-            <View
-              style={{
-                width: 70,
-                height: 40,
-                backgroundColor: "#FF6C00",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 20,
-              }}
-            >
-              <Ionicons name="add-outline" size={18} color="white" />
-            </View>
-          ),
-        }}
+          tabBarIcon: ({ focused, size, color }) => {
+            if (focused) {
+              return (
+                <View
+                  style={{
+                    width: 70,
+                    height: 40,
+                    backgroundColor: "#FF6C00",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 20,
+                  }}
+                >
+                  <Ionicons name="add-outline" size={18} color="white" />
+                </View>
+              );
+            }
+            return <Ionicons name="add-outline" size={18} color="grey" />;
+          },
+        })}
         name="Create"
         component={CreatePostScreen}
       />
       <MainTab.Screen
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused, size, color }) => (
-            <Feather name="user" size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused, size, color }) => {
+            if (focused) {
+              return (
+                <View
+                  style={{
+                    width: 70,
+                    height: 40,
+                    backgroundColor: "#FF6C00",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 20,
+                  }}
+                >
+                  <Feather name="user" size={size} color="white" />
+                </View>
+              );
+            }
+            return <Feather name="user" size={size} color={color} />;
+          },
         }}
         name="Profile"
         component={ProfileScreen}

@@ -1,8 +1,50 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ImageBackground,
+  FlatList,
+  SafeAreaView,
+} from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
+
+const POSTS = [
+  {
+    id: "1",
+    title: "Ліс",
+    image: "../assets/post-mauntains.jpg",
+    comments: "8",
+    likes: "153",
+    region: "Ivano-Frankivs'k Region",
+    state: "Ukraine",
+  },
+  {
+    id: "2",
+    title: "Захід сонця над Чорним морем",
+    image: "../assets/post-sunset.jpg",
+    comments: "3",
+    likes: "200",
+    region: "Kherson region",
+    state: "Ukraine",
+  },
+  {
+    id: "3",
+    title: "Маленький будиночок у Венеції",
+    image: "../assets/post-house.jpg",
+    comments: "50",
+    likes: "200",
+    region: "Venecia",
+    state: "Italy",
+  },
+];
 
 export default ProfileScreen = () => {
+  const [posts, setPosts] = useState(POSTS);
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -15,45 +57,53 @@ export default ProfileScreen = () => {
             style={styles.profileImage}
           />
           <Text style={styles.title}>Natali Romanova</Text>
-          <View style={styles.postsList}>
-            <View style={styles.postItem}>
-              <Image
-                source={require("../assets/post-mauntains.jpg")}
-                style={styles.postImage}
-              />
-              <Text style={styles.postTitle}>Ліс</Text>
-              <View style={styles.itemFooter}>
-                <Text style={styles.postComments}>8</Text>
-                <AntDesign name="like2" size={24} color="black" />
-                <Text style={styles.postLocation}>
-                  Ivano-Frankivs'k Region, Ukraine
-                </Text>
-              </View>
-            </View>
-            {/* <View style={styles.postItem}>
-              <Image
-                source={require("../assets/post-sunset.jpg")}
-                style={styles.postImage}
-              />
-              <Text style={styles.postTitle}>Захід сонця над Чорним морем</Text>
-              <View style={styles.itemFooter}>
-                <Text style={styles.postComments}>3</Text>
-                <Text style={styles.postLocation}>Kherson Region, Ukraine</Text>
-              </View>
-            </View> */}
-            {/* <View style={styles.postItem}>
-              <Image
-                source={require("../assets/post-house.jpg")}
-                style={styles.postImage}
-              />
-              <Text style={styles.postTitle}>Старий будиночок в Венеції</Text>
-              <View style={styles.itemFooter}>
-                <Text style={styles.postComments}>50</Text>
-                <Text style={styles.postLocation}>Italy</Text>
-              </View>
-            </View> */}
-          </View>
-          <View style={styles.footer}></View>
+          <SafeAreaView style={styles.postsList}>
+            <FlatList
+              data={posts}
+              renderItem={({ item }) => (
+                <View style={styles.postItem}>
+                  <Image
+                    source={require("../assets/post-mauntains.jpg")}
+                    style={styles.postImage}
+                  />
+                  <Text style={styles.postTitle}>{item.title}</Text>
+                  <View style={styles.itemFooter}>
+                    <View style={{ flexDirection: "row" }}>
+                      <View style={styles.infoSet}>
+                        <Ionicons
+                          style={{ marginRight: 7 }}
+                          name="chatbubble-sharp"
+                          size={22}
+                          color="#FF6C00"
+                        />
+                        <Text style={styles.comments}>{item.comments}</Text>
+                      </View>
+                      <View style={{ ...styles.infoSet, marginLeft: 10 }}>
+                        <EvilIcons
+                          style={{ marginRight: 4 }}
+                          name="like"
+                          size={30}
+                          color="#FF6C00"
+                        />
+
+                        <Text style={styles.comments}>{item.likes}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.infoSet}>
+                      <SimpleLineIcons
+                        style={{ marginRight: 5 }}
+                        name="location-pin"
+                        size={22}
+                        color="#BDBDBD"
+                      />
+                      <Text style={styles.location}>{item.state}</Text>
+                    </View>
+                  </View>
+                </View>
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          </SafeAreaView>
         </View>
       </ImageBackground>
     </View>
@@ -76,7 +126,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 92,
     paddingBottom: 46,
-    paddingHorizontal: 16,
     backgroundColor: "#FFF",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -99,8 +148,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     marginTop: 32,
   },
-  postItem: { flex: 1 },
-  postImage: { width: 343, height: 240, borderRadius: 8 },
+  postItem: { height: 305, marginBottom: 25 },
+  postImage: { width: "100%", height: 240, borderRadius: 8 },
   postTitle: {
     marginTop: 8,
     fontFamily: "Roboto-Medium",
@@ -111,10 +160,10 @@ const styles = StyleSheet.create({
   itemFooter: {
     width: 343,
     marginTop: 11,
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  infoSet: { flexDirection: "row", alignItems: "center" },
   postComments: {
     fontFamily: "Roboto-Medium",
     color: "#BDBDBD",
