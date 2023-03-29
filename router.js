@@ -1,6 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const Stack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -30,9 +35,71 @@ export const useRoute = (isAuth) => {
   }
   return (
     <MainTab.Navigator tabBarOptions={{ showLabel: false }}>
-      <MainTab.Screen name="Posts" component={PostsScreen} />
-      <MainTab.Screen name="Create" component={CreatePostScreen} />
-      <MainTab.Screen name="Profile" component={ProfileScreen} />
+      <MainTab.Screen
+        options={{
+          headerTitleStyle: {
+            fontFamily: "Roboto-Medium",
+            fontSize: 17,
+          },
+          headerRight: () => (
+            <MaterialIcons
+              style={{ marginRight: 10 }}
+              name="logout"
+              size={24}
+              color="#BDBDBD"
+            />
+          ),
+          title: "Публікації",
+          tabBarIcon: ({ focused, size, color }) => (
+            <Ionicons name="ios-grid-outline" size={size} color={color} />
+          ),
+        }}
+        name="Posts"
+        component={PostsScreen}
+      />
+      <MainTab.Screen
+        options={{
+          headerTitleStyle: {
+            fontFamily: "Roboto-Medium",
+            fontSize: 17,
+          },
+          title: "Створити публікацію",
+          headerLeft: () => (
+            <AntDesign
+              style={{ marginLeft: 20 }}
+              name="arrowleft"
+              size={24}
+              color="rgba(33, 33, 33, 0.8)"
+            />
+          ),
+          tabBarIcon: ({ focused, size, color }) => (
+            <View
+              style={{
+                width: 70,
+                height: 40,
+                backgroundColor: "#FF6C00",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 20,
+              }}
+            >
+              <Ionicons name="add-outline" size={18} color="white" />
+            </View>
+          ),
+        }}
+        name="Create"
+        component={CreatePostScreen}
+      />
+      <MainTab.Screen
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, size, color }) => (
+            <Feather name="user" size={size} color={color} />
+          ),
+        }}
+        name="Profile"
+        component={ProfileScreen}
+      />
     </MainTab.Navigator>
   );
 };

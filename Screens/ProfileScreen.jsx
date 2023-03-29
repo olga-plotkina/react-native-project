@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 export default ProfileScreen = () => {
   return (
@@ -23,6 +24,7 @@ export default ProfileScreen = () => {
               <Text style={styles.postTitle}>Ліс</Text>
               <View style={styles.itemFooter}>
                 <Text style={styles.postComments}>8</Text>
+                <AntDesign name="like2" size={24} color="black" />
                 <Text style={styles.postLocation}>
                   Ivano-Frankivs'k Region, Ukraine
                 </Text>

@@ -5,9 +5,6 @@ import PostsList from "./PostsList";
 export default PostsScreen = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Публікації</Text>
-      </View>
       <View style={styles.user}>
         <Image source={require("../assets/userpic.jpg")} style={styles.image} />
         <View style={styles.userInformation}>
@@ -16,7 +13,6 @@ export default PostsScreen = () => {
         </View>
       </View>
       <PostsList />
-      <View style={styles.footer}></View>
     </View>
   );
 };
@@ -26,12 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF",
     paddingLeft: 16,
-  },
-  header: {
-    width: 365,
-    height: 88,
-    paddingTop: 55,
-    paddingBottom: 11,
+    paddingRight: 16,
   },
   title: {
     fontFamily: "Roboto-Medium",
@@ -54,5 +45,4 @@ const styles = StyleSheet.create({
   userInformation: { marginLeft: 8 },
   userName: { fontFamily: "Roboto-Bold" },
   userEmail: {},
-  footer: { width: 375, height: 83, backgroundColor: "#FFF" },
 });

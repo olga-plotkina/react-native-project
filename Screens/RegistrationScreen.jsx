@@ -9,8 +9,9 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+
 const initialState = {
   login: "",
   email: "",
@@ -41,7 +42,14 @@ export default RegistrationScreen = ({ navigation }) => {
               marginTop: isShowKeyboard ? 147 : 263,
             }}
           >
-            <View style={styles.addPhotoSquare}></View>
+            <View style={styles.addPhotoSquare}>
+              <AntDesign
+                style={styles.addPhotoCrossIcon}
+                name="pluscircleo"
+                size={22}
+                color="#FF6C00"
+              />
+            </View>
             <Text style={styles.title}>Реєстрація</Text>
             <View style={styles.form}>
               <KeyboardAvoidingView
@@ -125,6 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
   },
+  addPhotoCrossIcon: { position: "absolute", top: 80, left: 107 },
   title: {
     fontFamily: "Roboto-Medium",
     marginBottom: 17,

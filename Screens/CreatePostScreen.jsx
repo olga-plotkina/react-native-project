@@ -36,9 +36,6 @@ export default CreatePostScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Створити публікацію</Text>
-        </View>
         <View style={styles.form}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -101,12 +98,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     paddingLeft: 16,
     paddingRight: 16,
-  },
-  header: {
-    width: 365,
-    height: 88,
-    paddingTop: 55,
-    paddingBottom: 11,
   },
   title: {
     fontFamily: "Roboto-Medium",
