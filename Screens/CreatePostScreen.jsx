@@ -44,7 +44,7 @@ export default CreatePostScreen = ({ navigation }) => {
   };
 
   const sendPost = () => {
-    navigation.navigate("Posts", { image });
+    navigation.navigate("Home", { image });
   };
 
   useEffect(() => {

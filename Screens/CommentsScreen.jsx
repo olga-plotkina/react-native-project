@@ -9,7 +9,6 @@ import {
 } from "react-native";
 
 export default CommentsScreen = () => {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [comment, setComment] = useState("");
 
   const keyboardHide = () => {
