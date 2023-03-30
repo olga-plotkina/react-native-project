@@ -1,55 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  FlatList,
-  SafeAreaView,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
+import PostsList from "./PostsList";
 
-const POSTS = [
-  {
-    id: "1",
-    title: "Ліс",
-    image: "../assets/post-mauntains.jpg",
-    comments: "8",
-    likes: "153",
-    region: "Ivano-Frankivs'k Region",
-    state: "Ukraine",
-  },
-  {
-    id: "2",
-    title: "Захід сонця над Чорним морем",
-    image: "../assets/post-sunset.jpg",
-    comments: "3",
-    likes: "200",
-    region: "Kherson region",
-    state: "Ukraine",
-  },
-  {
-    id: "3",
-    title: "Маленький будиночок у Венеції",
-    image: "../assets/post-house.jpg",
-    comments: "50",
-    likes: "200",
-    region: "Venecia",
-    state: "Italy",
-  },
-];
-
-export default PostsScreen = ({ route }) => {
-  const [posts, setPosts] = useState(POSTS);
-
-  useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
-  console.log(posts);
-  console.log(route.params);
+export default PostsScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -59,40 +12,7 @@ export default PostsScreen = ({ route }) => {
           <Text style={styles.userEmail}>email@example.com</Text>
         </View>
       </View>
-      <SafeAreaView style={styles.postsList}>
-        <FlatList
-          data={posts}
-          renderItem={({ item }) => (
-            <View style={styles.postItem}>
-              <Image source={{ uri: item.image }} style={styles.postImage} />
-              <Text style={styles.postTitle}>{item.title}</Text>
-              <View style={styles.itemFooter}>
-                <View style={styles.postInfoSet}>
-                  <Ionicons
-                    style={{ marginRight: 9 }}
-                    name="md-chatbubble-outline"
-                    size={22}
-                    color="#BDBDBD"
-                  />
-                  <Text style={styles.comments}>0</Text>
-                </View>
-                <View style={styles.postInfoSet}>
-                  <SimpleLineIcons
-                    style={{ marginRight: 7 }}
-                    name="location-pin"
-                    size={22}
-                    color="#BDBDBD"
-                  />
-                  <Text style={styles.location}>
-                    {item.region}, {item.state}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </SafeAreaView>
+      <PostsList />
     </View>
   );
 };
@@ -125,34 +45,4 @@ const styles = StyleSheet.create({
   userInformation: { marginLeft: 8 },
   userName: { fontFamily: "Roboto-Bold" },
   userEmail: {},
-  postsList: { flex: 1, marginTop: 32 },
-  postItem: { height: 305, marginBottom: 25 },
-  postImage: { width: "100%", height: 240, borderRadius: 8 },
-  // postThumb: { height: 55 },
-  postTitle: {
-    marginTop: 8,
-    fontFamily: "Roboto-Medium",
-    color: "#212121",
-    textAlign: "left",
-    fontSize: 16,
-  },
-  itemFooter: {
-    width: 343,
-    marginTop: 9,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  postInfoSet: { flexDirection: "row", alignItems: "center" },
-  comments: {
-    fontFamily: "Roboto-Medium",
-    color: "#BDBDBD",
-    fontSize: 16,
-  },
-  location: {
-    fontFamily: "Roboto-Medium",
-    color: "#212121",
-    fontSize: 16,
-  },
 });
