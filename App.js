@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { useRoute } from "./router";
 import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 export default function App() {
   const routing = useRoute(true);
@@ -31,7 +32,7 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <Provider>
+    <Provider store={store}>
       <View style={styles.container} onLayout={onLayout}>
         <NavigationContainer>{routing}</NavigationContainer>
       </View>
