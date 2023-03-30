@@ -23,6 +23,8 @@ export default PostsScreen = ({ navigation }) => {
         <NestedScreen.Navigator>
           <NestedScreen.Screen
             options={({ route, navigation }) => ({
+              headerBackVisible: false,
+              headerBackTitleVisible: false,
               headerRight: () => (
                 <TouchableOpacity
                 // onPress={() => {

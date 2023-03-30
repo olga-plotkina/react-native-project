@@ -27,6 +27,7 @@ export default RegistrationScreen = ({ navigation }) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+    navigation.navigate("Posts");
   };
 
   return (

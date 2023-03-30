@@ -20,38 +20,55 @@ const initialState = {
   image: "",
   title: "",
   location: "",
+  latitude: "",
+  longitude: "",
 };
 
 export default CreatePostScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [camera, setCamera] = useState(null);
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
 
-  const keyboardHide = () => {
+  const keyboardHide = async () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
+    console.log("data from create form", state);
+    const location = await Location.getCurrentPositionAsync();
+    console.log("location", location);
+    setState((prevState) => ({
+      ...prevState,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    }));
+    navigation.navigate("Home", { state });
     setState(initialState);
-    navigation.navigate("Home", { image });
   };
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
-    console.log(location);
-    setImage(photo.uri);
+
+    setState((prevState) => ({ ...prevState, image: photo.uri }));
   };
 
-  const sendPost = () => {
-    navigation.navigate("Home", { image });
-  };
+  // const sendPost = () => {
+  //   navigation.navigate("Home", { image });
+  // };
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
+      const cameraPermission = await Camera.requestPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
+      }
+
+      setHasPermission(cameraPermission.status === "granted");
+
+      if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
       }
     })();
   });
@@ -65,7 +82,7 @@ export default CreatePostScreen = ({ navigation }) => {
           >
             <View style={styles.addPhotoPlace}>
               <Camera style={styles.addPhotoRectangle} ref={setCamera}>
-                {image && (
+                {state.image && (
                   <View style={styles.takenPhoto}>
                     <Image
                       style={{
@@ -73,7 +90,7 @@ export default CreatePostScreen = ({ navigation }) => {
                         width: 200,
                         borderRadius: 8,
                       }}
-                      source={{ uri: image }}
+                      source={{ uri: state.image }}
                     />
                   </View>
                 )}

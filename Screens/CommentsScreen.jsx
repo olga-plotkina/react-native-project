@@ -20,9 +20,6 @@ export default CommentsScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Коментарі</Text>
-        </View>
         <View style={styles.commentsSection}>
           <Image
             style={styles.image}

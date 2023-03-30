@@ -46,6 +46,7 @@ export const useRoute = (isAuth) => {
     >
       <MainTab.Screen
         options={{
+          headerBackVisible: false,
           headerShown: false,
           tabBarIcon: ({ focused, size, color }) => {
             if (focused) {

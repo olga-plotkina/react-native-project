@@ -48,8 +48,8 @@ export default HomeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (route.params) {
-      console.log("route.params", route.params);
-      setPosts((prevState) => [...prevState, route.params]);
+      console.log("route.params.initialState", route.params.state);
+      setPosts((prevState) => [...prevState, route.params.state]);
     }
   }, [route.params]);
   console.log(posts);
