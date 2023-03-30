@@ -10,8 +10,11 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
+import { Camera } from "expo-camera";
+import * as Location from "expo-location";
 import { FontAwesome } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 const initialState = {
   image: "",
@@ -19,18 +22,29 @@ const initialState = {
   location: "",
 };
 
-const inputLocationPlaceholder = () => {
-  return <SimpleLineIcons name="location-pin" size={24} color="#BDBDBD" />;
-};
-export default CreatePostScreen = () => {
+export default CreatePostScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
+  const [camera, setCamera] = useState(null);
+  const [image, setImage] = useState("");
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+    navigation.navigate("Posts", { image });
+  };
+
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync();
+    console.log(location);
+    setImage(photo.uri);
+  };
+
+  const sendPost = () => {
+    console.log(navigation);
   };
 
   return (
@@ -41,14 +55,27 @@ export default CreatePostScreen = () => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
             <View style={styles.addPhotoPlace}>
-              <View style={styles.addPhotoRectangle}>
+              <Camera style={styles.addPhotoRectangle} ref={setCamera}>
+                {image && (
+                  <View style={styles.takenPhoto}>
+                    <Image
+                      style={{
+                        height: 240,
+                        width: 200,
+                        borderRadius: 8,
+                      }}
+                      source={{ uri: image }}
+                    />
+                  </View>
+                )}
                 <TouchableOpacity
+                  onPress={takePhoto}
                   style={styles.addPhotoBtn}
                   activeOpacity={0.8}
                 >
                   <FontAwesome name="camera" size={20} color="#BDBDBD" />
                 </TouchableOpacity>
-              </View>
+              </Camera>
               <Text style={styles.addPhotoText}>Завантажте фото</Text>
             </View>
             <TextInput
@@ -86,7 +113,21 @@ export default CreatePostScreen = () => {
             <Text style={styles.btnText}> Опублікувати </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.footer}></View>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{
+              width: 70,
+              height: 40,
+              backgroundColor: "#F6F6F6",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 20,
+            }}
+          >
+            <AntDesign name="delete" size={21} color="#BDBDBD" />
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -98,6 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     paddingLeft: 16,
     paddingRight: 16,
+    justifyContent: "space-between",
   },
   title: {
     fontFamily: "Roboto-Medium",
@@ -108,12 +150,22 @@ const styles = StyleSheet.create({
   form: { marginTop: 32 },
   addPhotoPlace: {},
   addPhotoRectangle: {
+    position: "relative",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     height: 240,
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
+  },
+  takenPhoto: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: 240,
+    borderRadius: 8,
+    borderColor: "white",
   },
   addPhotoBtn: {
     justifyContent: "center",
@@ -151,5 +203,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnText: { fontFamily: "Roboto-Regular", fontSize: 16 },
-  footer: { width: 375, height: 83, backgroundColor: "#FFF" },
+  footer: { marginBottom: 22, backgroundColor: "#FFF", alignItems: "center" },
 });
