@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -33,19 +33,28 @@ export default CreatePostScreen = ({ navigation }) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
-    navigation.navigate("Posts", { image });
+    navigation.navigate("Home", { image });
   };
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    // const location = await Location.getCurrentPositionAsync();
-    // console.log(location);
+    const location = await Location.getCurrentPositionAsync();
+    console.log(location);
     setImage(photo.uri);
   };
 
   const sendPost = () => {
-    console.log(navigation);
+    navigation.navigate("Posts", { image });
   };
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+      }
+    })();
+  });
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
