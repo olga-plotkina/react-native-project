@@ -39,13 +39,10 @@ export const useRoute = (isAuth) => {
     );
   }
   return (
-    <MainTab.Navigator
-      tabBarOptions={{
-        showLabel: false,
-      }}
-    >
+    <MainTab.Navigator>
       <MainTab.Screen
         options={{
+          tabBarShowLabel: false,
           headerBackVisible: false,
           headerShown: false,
           tabBarIcon: ({ focused, size, color }) => {
@@ -75,6 +72,8 @@ export const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={{
+          tabBarShowLabel: false,
+
           headerShown: false,
           tabBarIcon: ({ focused, size, color }) => {
             if (focused) {
@@ -101,6 +100,8 @@ export const useRoute = (isAuth) => {
       />
       <MainTab.Screen
         options={({ route, navigation: { goBack } }) => ({
+          tabBarShowLabel: false,
+
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {

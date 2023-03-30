@@ -11,6 +11,7 @@ import {
   Image,
 } from "react-native";
 import { Camera } from "expo-camera";
+import { MediaLibrary } from "expo-media-library";
 import * as Location from "expo-location";
 import { FontAwesome } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -58,17 +59,10 @@ export default CreatePostScreen = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      const cameraPermission = await Camera.requestPermissionsAsync();
-      await MediaLibrary.requestPermissionsAsync();
+      const cameraPermission = await Camera.requestCameraPermissionsAsync();
 
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-      }
-
-      setHasPermission(cameraPermission.status === "granted");
-
-      if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+      if (status || cameraPermission.status !== "granted") {
+        return <Text>Permission to access location was denied</Text>;
       }
     })();
   });
