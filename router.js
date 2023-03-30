@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -29,6 +29,16 @@ export const useRoute = (isAuth) => {
           options={{ headerShown: false }}
           name="Login"
           component={LoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Create"
+          component={CreatePostScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Posts"
+          component={PostsScreen}
         />
       </Stack.Navigator>
     );
@@ -87,12 +97,17 @@ export const useRoute = (isAuth) => {
           },
           title: "Створити публікацію",
           headerLeft: () => (
-            <AntDesign
-              style={{ marginLeft: 20 }}
-              name="arrowleft"
-              size={24}
-              color="rgba(33, 33, 33, 0.8)"
-            />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("Posts")}
+            >
+              <AntDesign
+                style={{ marginLeft: 20 }}
+                name="arrowleft"
+                size={24}
+                color="rgba(33, 33, 33, 0.8)"
+              />
+            </TouchableOpacity>
           ),
           tabBarIcon: ({ focused, size, color }) => {
             if (focused) {
