@@ -1,6 +1,8 @@
 import app from "../../firebase/config.js";
 import { authSlice } from "./authReducer";
 
+const { updateUserProfile, authStateChange, authSignOut } = authSlice.actions;
+
 export const authSignUpUser =
   ({ login, email, password }) =>
   async (dispatch, getState) => {
@@ -14,7 +16,7 @@ export const authSignUpUser =
 
       console.log("current user", user);
       dispatch(
-        authSlice.actions.updateUserProfile({
+        updateUserProfile({
           userId: user.uid,
           login: user.displayName,
         })
@@ -38,19 +40,23 @@ export const authSignInUser =
     }
   };
 
-export const authSignOutUser = async (dispatch, getState) => {};
+export const authSignOutUser = async (dispatch, getState) => {
+  await app.auth().signOut();
+
+  dispatch(authSignOut());
+};
 
 export const authStateChangeUser = async (dispatch, getState) => {
   await app.auth().onAuthStateChanged((user) => {
     if (user) {
       dispatch(
-        authSlice.actions.updateUserProfile({
+        updateUserProfile({
           userId: user.uid,
           login: user.displayName,
         })
       );
       dispatch(
-        authSlice.actions.authStateChange({
+        authStateChange({
           stateChange: true,
         })
       );

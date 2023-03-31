@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 // import CreatePostScreen from "./CreatePostScreen";
@@ -8,12 +9,21 @@ import MapScreen from "./MapScreen.jsx";
 import HomeScreen from "./Home.jsx";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+// import app from "../firebase/config.js";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
+
+import { authSignOutUser } from "../redux/auth/authOperations.js";
 
 const NestedScreen = createStackNavigator();
 
 export default PostsScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    dispatch(authSignOutUser);
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -26,11 +36,7 @@ export default PostsScreen = ({ navigation }) => {
               headerBackVisible: false,
               headerBackTitleVisible: false,
               headerRight: () => (
-                <TouchableOpacity
-                // onPress={() => {
-                //   navigation.reset({ index: 0, routes: [{ name: "Login" }] });
-                // }}
-                >
+                <TouchableOpacity onPress={signOut}>
                   <MaterialIcons
                     style={{ marginRight: 10 }}
                     name="logout"
