@@ -11,11 +11,12 @@ import {
   Image,
 } from "react-native";
 import { Camera } from "expo-camera";
-import { MediaLibrary } from "expo-media-library";
+// import { MediaLibrary } from "expo-media-library";
 import * as Location from "expo-location";
 import { FontAwesome } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import app from "../firebase/config";
 
 const initialState = {
   image: "",
@@ -29,20 +30,11 @@ export default CreatePostScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [camera, setCamera] = useState(null);
-  // const [image, setImage] = useState("");
 
   const keyboardHide = async () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log("data from create form", state);
-    const location = await Location.getCurrentPositionAsync();
-    console.log("location", location);
-    setState((prevState) => ({
-      ...prevState,
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    }));
-    navigation.navigate("Home", { state });
+
     setState(initialState);
   };
 
@@ -52,9 +44,48 @@ export default CreatePostScreen = ({ navigation }) => {
     setState((prevState) => ({ ...prevState, image: photo.uri }));
   };
 
-  // const sendPost = () => {
-  //   navigation.navigate("Home", { image });
+  // const writeDataToFirestore = async () => {
+  //   try {
+  //     const result = await app
+  //       .collection("posts")
+  //       .add({ image: "Test" });
+  //     console.log("Document written with ID: ", result.id);
+  //   } catch (error) {
+  //     console.error("Error adding document: ", error);
+  //   }
   // };
+
+  const sendPost = async () => {
+    uploadPhotoToServer();
+    const location = await Location.getCurrentPositionAsync();
+    setState((prevState) => ({
+      ...prevState,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    }));
+    navigation.navigate("Home", { state });
+  };
+
+  const uploadPostToServer = async () => {
+    const createPost = await app.firestore().collection("posts").add(state);
+  };
+
+  const uploadPhotoToServer = async () => {
+    console.log("state.image", state.image);
+    const response = await fetch(state.image);
+    console.log("response", response.blob());
+
+    const file = response.blob();
+    const uniquePostId = Date.now().toString();
+    await app.storage().ref(`postImage/${uniquePostId}`).put(file);
+    const processedPhoto = await app
+      .storage()
+      .ref("postImage")
+      .child(uniquePostId)
+      .getDownloadURL();
+
+    setState((prevState) => ({ ...prevState, image: processedPhoto }));
+  };
 
   useEffect(() => {
     (async () => {
@@ -128,7 +159,7 @@ export default CreatePostScreen = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.btn}
-            onPress={keyboardHide}
+            onPress={sendPost}
           >
             <Text style={styles.btnText}> Опублікувати </Text>
           </TouchableOpacity>

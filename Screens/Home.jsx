@@ -106,7 +106,7 @@ export default HomeScreen = ({ route, navigation }) => {
               </View>
             </View>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, indx) => indx.toString()}
         />
       </SafeAreaView>
     </View>
