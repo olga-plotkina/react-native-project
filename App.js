@@ -1,21 +1,12 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
-import { useRoute } from "./router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import app from "./firebase/config.js";
+import MainComponent from "./components/Main";
 
 export default function App() {
-  // const [isReady, setIsReady] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const routing = useRoute(user);
-
-  app.auth().onAuthStateChanged(setUser);
-
   const [fontsLoaded] = useFonts({
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -40,7 +31,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <View style={styles.container} onLayout={onLayout}>
-        <NavigationContainer>{routing}</NavigationContainer>
+        <MainComponent />
       </View>
     </Provider>
   );
