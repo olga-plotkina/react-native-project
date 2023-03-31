@@ -9,8 +9,9 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../redux/auth/authOperations";
 
 const initialState = {
   email: "",
@@ -21,10 +22,18 @@ export default LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
 
+  const dispatch = useDispatch();
+
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
+    setState(initialState);
+  };
+
+  const handleSubmit = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    dispatch(authSignInUser(state));
     navigation.navigate("Posts");
     setState(initialState);
   };
@@ -72,7 +81,7 @@ export default LoginScreen = ({ navigation }) => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.btn}
-                onPress={keyboardHide}
+                onPress={handleSubmit}
               >
                 <Text style={styles.btnText}> Увійти </Text>
               </TouchableOpacity>

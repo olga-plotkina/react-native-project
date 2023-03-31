@@ -48,12 +48,9 @@ export default HomeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (route.params) {
-      console.log("route.params.initialState", route.params.state);
       setPosts((prevState) => [...prevState, route.params.state]);
     }
   }, [route.params]);
-  console.log(posts);
-  console.log(route.params);
   return (
     <View style={styles.container}>
       <View style={styles.user}>

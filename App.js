@@ -6,9 +6,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useRoute } from "./router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import app from "./firebase/config";
 
 export default function App() {
-  const routing = useRoute(true);
+  const [isReady, setIsReady] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const routing = useRoute(user);
+
+  app.auth().onAuthStateChanged(setUser);
 
   const [fontsLoaded] = useFonts({
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
