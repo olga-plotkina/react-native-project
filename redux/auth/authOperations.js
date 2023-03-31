@@ -41,5 +41,19 @@ export const authSignInUser =
 export const authSignOutUser = async (dispatch, getState) => {};
 
 export const authStateChangeUser = async (dispatch, getState) => {
-  await app.auth().onAuthStateChanged((user) => setUser(user));
+  await app.auth().onAuthStateChanged((user) => {
+    if (user) {
+      dispatch(
+        authSlice.actions.updateUserProfile({
+          userId: user.uid,
+          login: user.displayName,
+        })
+      );
+      dispatch(
+        authSlice.actions.authStateChange({
+          stateChange: true,
+        })
+      );
+    }
+  });
 };
