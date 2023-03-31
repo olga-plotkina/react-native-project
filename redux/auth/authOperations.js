@@ -7,11 +7,19 @@ export const authSignUpUser =
     try {
       await app.auth().createUserWithEmailAndPassword(email, password);
 
-      const { user } = await app.auth.currentUser;
+      await app.auth().currentUser.updateProfile({
+        displayName: login,
+      });
+      const user = await app.auth().currentUser;
 
-      console.log("user signup", user);
-
-      dispatch(authSlice.updateUserProfile({ userId: user.uid }));
+      console.log("current user", user);
+      dispatch(
+        authSlice.actions.updateUserProfile({
+          userId: user.uid,
+          login: user.displayName,
+        })
+      );
+      console.log("state", authSlice);
     } catch (error) {
       console.log("error", error);
       console.log("error.message", error.message);
